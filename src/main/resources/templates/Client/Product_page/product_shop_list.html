@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/index::dynamic(~{::main})}">
+
+<body>
+    <main ng-controller="cart_ctrl" style="clear: both; margin: 70px 0px 150px 0px;">
+        <div class="shop_banner bg-info py-3">
+            <div class="shop_info my-2 ">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="d-inline-flex align-content-center pe-5 " style="border-right: 1px solid #999;">
+                            <div class="p-1"><button class=" my-1"
+                                    style="margin-left: 50px; border: none; background: none;"><img
+                                        th:src="@{|/Client/images/${profile.listOfFiles.get(0).filename}|}"
+                                        class="shop_avatar" style="border: 1px solid #666;" alt=""></button>
+                            </div>
+                            <div class="d-flex flex-column " style=" margin-top: 10px; ">
+                                <div class="p-1 ms-3"><a
+                                        style="text-decoration: none; color: white; font-size:20px ; font-weight: 500;"
+                                        href="#"><span th:text="${profile.shopname}"></span></a></div>
+                                <div class="p-1 ms-3 mt-3">
+                                    <button class="shop_button"
+                                        style="float: left;color: white; background-color: #C93F04;">Shop
+                                        profile</button>
+                                    <button class="shop_button"
+                                        style=" color: white;background:none; border: 1px solid rgb(255, 255, 255);">Chat</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7">
+                        <div class="d-flex flex-column " style=" margin-top: 10px; font-size: 18px; ">
+                            <div class="p-1 ms-3">
+                                <p><span>Reviews </span> <span style="margin-left: 30px;" th:text="${total}"></span>
+                                    <span style="margin-left: 100px;">Joined </span><span style="margin-left: 20px;">4
+                                        year
+                                        ago</span>
+                                </p>
+                            </div>
+                            <div class="p-1 ms-3 mt-2">
+                                <div class="">
+                                    <p>
+                                        <span>Products </span> <span style="margin-left: 20px;"
+                                            th:text="${profile.listOfBooks.size()}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3" style="clear: both;">
+            <ul class="nav nav-pills " role="tablist">
+                <li class="nav-item " style="margin-left: 40%;">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#home_us">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#list_pr_us">Danh mục</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#products_us">Sản phẩm</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#about_us">Thông tin</a>
+                </li>
+            </ul>
+            <hr>
+            <div class="tab-content" style="clear: both;">
+                <div id="home_us" class="tab-pane active"><br>
+                    <div style="width: 100%;">
+                        <div>
+                            <p style="text-align: center;font-family: initial; font-weight: 500; font-size: 50px;">
+                                SẢN PHẨM BÁN CHẠY </p>
+                        </div>
+                        <div>
+                            <div class="book_related" style="width: 90%;">
+                                <div class="row">
+                                    <div class="col-md-3" th:each="list,item : ${profile.listOfBooks}" th:if="${item.index<5}">
+                                        <div class="wsk-cp-product" >
+                                            <a class="wsk-cp-img" th:href="@{|/product/detail/${list.bookid}|}"  >
+                                                <img  th:src="@{|/Client/images/${list.listOfImagebooks.get(0).name}|}"  alt="Product" class="img-responsive" />
+                                            </a>
+                                            <div class="wsk-cp-text">
+                                                <div class="category">
+                                                    <span th:text="${#strings.abbreviate(item.current.shoponlines.shopname,10)}"></span>
+                                                </div>
+                                                <a class="title-product" th:href="@{|/product/detail/${list.bookid}|}">
+                                                    <h3 th:text="${list.bookname}"></h3>
+                                                </a>
+                                                <div class="card-footer">
+                                                    <div class=""><span class="" th:text="'Đã bán '+${list.quantitysold}"></span></div>
+                                                    <div class="wcf-left"><span class="price" th:text="${#numbers.formatDecimal(list.price,0,'POINT',0,'COMMA')}+'đ'"></span></div>
+                                                    <div class="wcf-right"><a href="" class="buy-btn " th:attr="ng-click=@{|cart.add(${list.bookid})|}" ><i class="bi bi-cart3" style="margin: auto"></i></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="clear: both;">
+                                    <button class="button_all_orange my-3" style="margin-left: 44.5%;clear: both;">See
+                                        more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="banner_shop_guest"
+                        style="height: 250px;font-size: 25px; color:#797b7c ;text-align: center; box-shadow: 0 2px 4px 1px rgba(0,0,0,.25); clear: both;">
+                        <div>
+                            <p style="text-align: center;font-family: initial; font-weight: 500; font-size: 30px;">
+                                VOUCHER FOR YOU</p>
+                        </div>
+                        <div class="row p-4">
+                            <div th:each="sale : ${listSaleOfshop}" class="col-sm-4 pt-4 m-2"
+                                style=" height: 100px;font-size: 25px; color:#5f5f5f ;text-align: center; box-shadow: 0 2px 4px 1px rgba(0,0,0,.25);">                              
+                                <div th:if!="${dis.isEmpty()}" th:each="di: ${dis}">                                
+                                    <div th:if="${di.saleid.equals(sale.couoponcode)}">
+                                        <b th:text="${sale.promotionname}"></b>
+                                        <button th:id="accep+${sale.couoponcode}"
+                                            th:attr="ng-click=@{|addDiscount('${sale.couoponcode}')|}"
+                                            class="btn btn-primary mx-2">nhận</button>
+                                    </div>                           
+                                </div>
+                                <div th:if ="${dis.isEmpty()}">
+                                    <b th:text="${sale.promotionname}"></b>
+                                    <button class="btn btn-primary mx-2" th:id="accep+${sale.couoponcode}"
+                                        th:attr="ng-click=@{|addDiscount('${sale.couoponcode}')|}">Nhận</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="width: 100%;">
+                        <div>
+                            <p style="text-align: center;font-family: initial; font-weight: 500; font-size: 50px;">
+                               SẢN PHẨM NỔI BẬT</p>
+                        </div>
+                        <div>
+                            <div class="book_related" style="width: 90%; clear: both;">
+
+                                <div th:each="quantitys : ${minquantity}" class="book_item" style="margin-left: 1%;">
+                                    <div class="book_img text-center">
+                                        <img th:src="@{|/Client/images/${quantitys.listOfImagebooks.get(0).name}|}"
+                                            alt="">
+                                        <button class="btn"
+                                            style="background-color: #C93F04; color: white; font-size: 18px;">Chi
+                                            tiết</button>
+                                    </div>
+                                    <div class="book_title text-center mt-3">
+                                        <a th:href="@{|/product/detail/quantitys.bookid|}">
+                                            <p th:text="${quantitys.bookname}"></p>
+                                        </a>
+                                        <p style="font-size: 18px;margin-top: 0px;  color: #666;"
+                                            th:text="${#strings.abbreviate(quantitys.shoponlines.shopname, 10)}"></p>
+                                        <p style="font-size: 18px;margin-top: -10px;">Giá : <strong
+                                                th:text="${#numbers.formatDecimal(quantitys.price, 0, 'POINT', 0, 'COMMA')} +'₫'">200.00
+                                                VND</strong>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex flex-row-reverse" style="height: 30px; margin-top: -20px;">
+                                        <div class="p-2"><a href="#" class="text-dark"><i class="bi bi-heart"
+                                                    style="font-size: 25px;"></i></a></div>
+                                        <div class="p-2"><a th:attr="ng-click=@{|cart.add(${quantitys.bookid})|}"
+                                                class="text-dark"> <i class="bi bi-cart3"
+                                                    style="font-size: 25px;"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+                        <button class="button_all_orange my-3" style="margin-left: 44%;">See more</button>
+                    </div>
+                </div>
+                <div id="list_pr_us" class="w-75 m-auto tab-pane fade"><br>
+                    <div>
+                        <div class="d-inline-flex p-3 text-white">
+                            <div class="p-2">
+                                <form action="">
+                                    <label for="sel1" class="text-dark">Sắp xếp</label>
+                                    <select class="btn btn-light" id="sel1" name="sellist1" ng-model="or"
+                                        ng-change="orderBy()">
+                                        <option value="bookid">Ngẫu nhiên</option>
+                                        <option value="price">Giá tăng dần</option>
+                                        <option value="-price">Giá giảm dần</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="p-2"><a ng-click="newyear()" class="btn btn-primary">Mới nhất</a></div>
+                            <div class="p-2"><a ng-click="bestseller()" class="btn btn-success">Bán chạy nhất</a></div>
+                            <div class="p-2"><a id="showtab" class="filter btn border-orange">Lọc</a></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Thể loại</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="c : ${listCateogories}">
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(1,this)"
+                                                    th:id="${c.categoryid}" th:value="${c.categoryid}" type="checkbox"
+                                                    class="form-check-input">
+                                                <label class="form-check-label" th:text="${c.name}"></label>
+                                            </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Tác giả</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="w : ${listWriter}">
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(2,this)"
+                                                    th:id="${w.writtingmasterid}" type="checkbox"
+                                                    class="form-check-input">
+                                                <label class="form-check-label" th:text="${w.namewm}"></label>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nhà xuât bản</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="p : ${plcm}">
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(3,this)"
+                                                    th:id="${p.namepc}" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label" th:text="${p.namepc}"></label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Đánh giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(5,this)"
+                                                    th:id="1" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">
+                                                    <div class="stars ms-3" style="font-size: 22px;">
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                    </div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(5,this)"
+                                                    th:id="2" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">
+                                                    <div class="stars ms-3" style="font-size: 22px;">
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                    </div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(5,this)"
+                                                    th:id="3" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">
+                                                    <div class="stars ms-3" style="font-size: 22px;">
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                    </div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(5,this)"
+                                                    th:id="4" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">
+                                                    <div class="stars ms-3" style="font-size: 22px;">
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star"></i></span>
+                                                    </div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input onchange="angular.element(this).scope().filterChoose(5,this)"
+                                                    th:id="5" type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">
+                                                    <div class="stars ms-3" style="font-size: 22px;">
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                        <span><i class="bi bi-star-fill"></i></span>
+                                                    </div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="products_us" class="tab-pane fade" style="clear: both;"><br>
+                    <div class="book_related" style="width: 90%; clear: both;">
+                
+                        <div ng-repeat="bs in ListBookOfShop | filter:filterByGenres | filter:filterByCate | filter:filterByWriter | filter:filterByRatting  | filter: filterAll |orderBy:or"
+                            class="book_item my-3" style="margin-left: 1%;">
+
+                            <div class="book_img text-center">
+                                <img ng-init="setImageBook(bs.bookid)" id="product{{bs.bookid}}" alt="">
+                                <button class="btn"
+                                    style="background-color: #C93F04; color: white; font-size: 18px;">Chi
+                                    tiết</button>
+                            </div>
+                            <div class="book_title text-center mt-3">
+                                <a ng-click="detailBook(bs.bookid)">
+                                    <p>{{bs.bookname}}</p>
+                                </a>
+                                <p style="font-size: 18px;margin-top: 0px;  color: #666;">{{bs.shoponlines.shopname}}
+                                </p>
+                                <p style="font-size: 18px;margin-top: -10px;"> Giá : <strong>{{bs.price | currency : "" : 2}}
+                                        đ</strong></p>
+                            </div>
+                            <div class="d-flex justify-content-between " style="margin-top: -10px;">
+                                <div class="px-2">
+                                    <p style="font-size: 18px;margin-top: 10px;"> <span>{{bs.quantitysold}}</span>
+                                        <span> Đã
+                                            bán</span></p>
+                                </div>
+                                <div class=" text-end">
+                                    <div class="d-flex flex-row-reverse">
+                                        <div class="p-2"><a href="#" class="text-dark"><i class="bi bi-heart"
+                                                    style="font-size: 25px;"></i></a></div>
+                                        <div class="p-2"><a ng-click="cart.add(bs.bookid)" class="text-dark">
+                                                <i class="bi bi-cart3" style="font-size: 25px;"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container my-4" style="clear: both;">
+                        </div>
+                    </div>
+                </div>
+                <div id="about_us" class="container tab-pane fade" style="clear: both;"><br>
+                    <div class="w-100 m-auto">
+                        <table class="table border table-hover" style="height: 500px;">
+                            <thead>
+                                <tr>
+                                    <th>Thông tin</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tên shop</td>
+                                    <td> <strong th:text="${profile.shopname}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Địa chỉ</td>
+                                    <td> fff</td>
+                                </tr>
+                                <tr>
+                                    <td>Số điện thoại</td>
+                                    <td> <strong th:text="${profile.phonenumber}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td> <strong th:text="${profile.account.email}"></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/Client/Js/cart/cart.js}"></script>
+        <script src="../../../static/Client/Js/cart/cart.js"></script>
+    </main>
+
+</body>
+
+</html>

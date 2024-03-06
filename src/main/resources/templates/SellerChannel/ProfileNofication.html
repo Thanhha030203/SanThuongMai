@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.ico">
+  <title>Tiny Dashboard - A Bootstrap Dashboard Template</title>
+  <!-- Simple bar CSS -->
+  <link rel="stylesheet" href="SellerChannel/css/simplebar.css">
+  <!-- Fonts CSS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <!-- Icons CSS -->
+  <link rel="stylesheet" href="SellerChannel/css/feather.css">
+  <!-- Date Range Picker CSS -->
+  <link rel="stylesheet" href="SellerChannel/css/daterangepicker.css">
+  <!-- App CSS -->
+  <link rel="stylesheet" href="SellerChannel/css/app-light.css" id="lightTheme" disabled>
+  <link rel="stylesheet" href="SellerChannel/css/app-dark.css" id="darkTheme">
+</head>
+
+<body class="vertical  dark  ">
+  <div class="wrapper">
+    <main role="main" class="main-content">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-10 col-xl-8">
+            <h2 class="h3 mb-4 page-title">Settings</h2>
+            <div class="my-4">
+              
+              <h5 class="mb-0 mt-5">Account seting</h5>
+              <p>Change basic settings</p>
+              <hr class="my-4">
+              <div class="list-group mb-5 shadow">
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">My profile</strong>
+                      <p class="text-muted mb-0">{{account.username}}</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href="">
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">Full name</strong>
+                      <p class="text-muted mb-0">{{account.fullname}}</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href="">
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">Phone number</strong>
+                      <p class="text-muted mb-0">{{account.gender?'Male':'Female'}}</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href="">
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">Email</strong>
+                      <p class="text-muted mb-0">{{account.email}}</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href="">
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">Login password</strong>
+                      <p class="text-muted mb-0">Reminder: You should regularly change your password to avoid security problems</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href="">
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <strong class="mb-0">Link account</strong>
+                      <p class="text-muted mb-0">Not set, function is update</p>
+                    </div> <!-- .col -->
+                    <div class="col-auto">
+                      <a href=""  >
+                        <div class="col-3 text-center">
+                          <span class="fe fe-edit-3"></span>
+                        </div>
+                      </a>
+                    </div> <!-- .col -->
+                  </div> <!-- .row -->
+                </div> <!-- .list-group-item -->
+               
+              </div> <!-- .list-group -->
+              
+              
+            </div> <!-- /.card-body -->
+          </div> <!-- /.col-12 -->
+        </div> <!-- .row -->
+      </div> <!-- .container-fluid -->
+      <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="list-group list-group-flush my-n3">
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-box fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Package has uploaded successfull</strong></small>
+                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-download fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Widgets are updated successfull</strong></small>
+                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-inbox fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Notifications have been sent</strong></small>
+                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                    </div>
+                  </div> <!-- / .row -->
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-link fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Link was attached to menu</strong></small>
+                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                    </div>
+                  </div>
+                </div> <!-- / .row -->
+              </div> <!-- / .list-group -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-5">
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-success justify-content-center">
+                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Control area</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Activity</p>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Droplet</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Upload</p>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Users</p>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="squircle bg-primary justify-content-center">
+                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                  </div>
+                  <p>Settings</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main> <!-- main -->
+  </div> <!-- .wrapper -->
+  <script src="SellerChannel/js/jquery.min.js"></script>
+  <script src="SellerChannel/js/popper.min.js"></script>
+  <script src="SellerChannel/js/moment.min.js"></script>
+  <script src="SellerChannel/js/bootstrap.min.js"></script>
+  <script src="SellerChannel/js/simplebar.min.js"></script>
+  <script src='SellerChannel/js/daterangepicker.js'></script>
+  <script src='SellerChannel/js/jquery.stickOnScroll.js'></script>
+  <script src="SellerChannel/js/tinycolor-min.js"></script>
+  <script src="SellerChannel/js/config.js"></script>
+  <script src="SellerChannel/js/apps.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-56159088-1');
+  </script>
+</body>
+
+</html>

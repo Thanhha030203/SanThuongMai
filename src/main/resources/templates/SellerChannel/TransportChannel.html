@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.ico">
+  <title>Tiny Dashboard - A Bootstrap Dashboard Template</title>
+  <!-- Simple bar CSS -->
+
+</head>
+
+<body class="vertical  light  ">
+  <div class="wrapper">
+
+    <main role="main" class="main-content">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="row align-items-center mb-2">
+              <div class="col-12">
+                
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mt-3" style="background-color: transparent;">
+                    <li class="breadcrumb-item"><a href="#">Tranport Channel</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Tranport</li>
+                  </ol>
+                </nav>
+                <h3>Tranport</h3>
+              </div>          
+            </div>
+            <div class="mb-2 align-items-center">
+              <div class="card shadow">
+                <div class="card-body">
+                  <ul class="nav nav-pills nav-fill mb-3">
+                    <li class="nav-item">
+                      <a class="nav-link active" ng-click="tabSelected(0);showButton = false; findByOrderStatusId(0)" ng-init="findByOrderStatusId(0)" data-toggle="pill">All</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(1);showButton = false; findByOrderStatusId(1)" data-toggle="pill" >Unpaid</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(2);showButton = false; findByOrderStatusId(2)" data-toggle="pill">Paid</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(3); showButton = true; findByOrderStatusId(3)" data-toggle="pill">Wait for confirmation</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(4);showButton = false; findByOrderStatusId(4)" data-toggle="pill">Shipping</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(5);showButton = false; findByOrderStatusId(5)" data-toggle="pill">Complete</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(6);showButton = false; findByOrderStatusId(6)" data-toggle="pill">Delivery failed</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" ng-click="tabSelected(7);showButton = false; findByOrderStatusId(7)" data-toggle="pill">Return/Refund</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content mb-1" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-All" role="tabpanel" aria-labelledby="pills-All-tab"> 
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <input type="text" placeholder="Search Bookingid" ng-model="searchText.bookingid" class="form-control datetimes" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <form class="mb-3">
+                              <input type="text" class="form-control text-muted" placeholder="Type by date" ng-model="searchText.createat">
+                              <br>
+                            </form>
+                          </div>
+                          <div class="form-group mt-4">
+                            <button type="button" class="btn mb-2 btn-outline-secondary"><span class="fe fe-arrow-down fe-16 mr-2"></span>Export as Excel</button>
+                          </div>
+                        </div>
+                      </div>    
+                    </div>
+
+
+
+
+
+              </div>
+            </div>
+            
+
+
+
+
+          </div> <!-- .col-12 -->
+        </div> <!-- .row -->
+            <div class="mt-2 mb-2 align-items-center">
+              <div class="card shadow">
+                <div class="card-body">
+
+                  <main role="main">
+                    <div class="container-fluid">
+                      <div class="row justify-content-center">
+                        <div class="col-12">
+                          <div class="row my-4">
+                            <!-- Small table -->
+                            <div class="col-md-12">
+                              <div class="form-group mt-4">
+                                <button type="button" class="btn mb-2 btn-warning" ng-click="confirmSelectedBookings(4); uncheckAll()" ng-disabled="!hasCheckedCheckbox()" ng-show="showButton" >Confirm</button>
+                                <button type="button" class="btn mb-2 btn-warning" ng-click="confirmSelectedBookings(6); uncheckAll()" ng-disabled="!hasCheckedCheckbox()" ng-show="showButton" >Cancel</button>
+
+
+                              </div>
+
+                              <div class="card shadow">
+                                <div class="card-body">
+                                  <!-- table -->
+                                  <table class="table datatables" id="dataTable-1">
+                                    <thead>
+                                    <tr>
+                                      <th ng-show="showCheckboxColumn"></th>
+                                      <th>Booking ID</th>
+                                      <th>Create At</th>
+                                      <th>Cost</th>
+                                      <th>Shipping Unit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="booking in bookings | filter: searchText">
+                                      <td ng-show="waitForConfirmationTabSelected">
+                                        <div class="custom-control custom-checkbox">
+                                          <input type="checkbox" class="custom-control-input" id="c{{$index + 1}}" ng-model="checkboxes[$index]" >
+                                          <label class="custom-control-label" for="c{{$index + 1}}"></label>
+                                        </div>
+                                      </td>
+
+                                      <td>{{ booking.bookingid }}</td>
+                                      <td>{{ booking.createat }}</td>
+                                      <td>{{ booking.cost }}</td>
+                                      <td>{{ booking.shippingunits.name }}</td>
+                                      <td>{{ booking.id }}</td>
+                                      <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+                                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="text-muted sr-only">Action</span>
+                                      </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                          <a class="dropdown-item" data-toggle="modal" data-target=".bd-example-modal-xl" ng-click="initInfoDetailBooking(booking.bookingid); initInfoDetailBookingDetail(booking.bookingid)">Detail</a>
+
+                                          <a class="dropdown-item" ng-click="generatePdf(booking.bookingid)">Print</a>
+
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                    </tbody>
+                                    <nav aria-label="Page navigation example">
+                                      <ul class="pagination">
+                                        <li class="page-item" ng-class="{disabled: currentPage === 1}">
+                                          <a class="page-link" ng-click="setPage(currentPage - 1)">Previous</a>
+                                        </li>
+                                        <li class="page-item" ng-repeat="page in getPages()" ng-class="{active: currentPage === page}">
+                                          <a class="page-link" ng-click="setPage(page)">{{ page }}</a>
+                                        </li>
+                                        <li class="page-item" ng-class="{disabled: currentPage === totalPages}">
+                                          <a class="page-link" ng-click="setPage(currentPage + 1)">Next</a>
+                                        </li>
+                                      </ul>
+                                    </nav>
+                                  </table>
+
+                                </div>
+                              </div>
+                            </div> <!-- simple table -->
+                          </div> <!-- end section -->
+                        </div> <!-- .col-12 -->
+                      </div> <!-- .row -->
+                    </div> <!-- .container-fluid -->
+                    <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog"
+                         aria-labelledby="defaultModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="list-group list-group-flush my-n3">
+                              <div class="list-group-item bg-transparent">
+                                <div class="row align-items-center">
+                                  <div class="col-auto">
+                                    <span class="fe fe-box fe-24"></span>
+                                  </div>
+                                  <div class="col">
+                                    <small><strong>Package has uploaded successfull</strong></small>
+                                    <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                                    <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="list-group-item bg-transparent">
+                                <div class="row align-items-center">
+                                  <div class="col-auto">
+                                    <span class="fe fe-download fe-24"></span>
+                                  </div>
+                                  <div class="col">
+                                    <small><strong>Widgets are updated successfull</strong></small>
+                                    <div class="my-0 text-muted small">Just create new layout Index, form, table
+                                    </div>
+                                    <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="list-group-item bg-transparent">
+                                <div class="row align-items-center">
+                                  <div class="col-auto">
+                                    <span class="fe fe-inbox fe-24"></span>
+                                  </div>
+                                  <div class="col">
+                                    <small><strong>Notifications have been sent</strong></small>
+                                    <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                                    <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                                  </div>
+                                </div> <!-- / .row -->
+                              </div>
+                              <div class="list-group-item bg-transparent">
+                                <div class="row align-items-center">
+                                  <div class="col-auto">
+                                    <span class="fe fe-link fe-24"></span>
+                                  </div>
+                                  <div class="col">
+                                    <small><strong>Link was attached to menu</strong></small>
+                                    <div class="my-0 text-muted small">New layout has been attached to the menu
+                                    </div>
+                                    <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                                  </div>
+                                </div>
+                              </div> <!-- / .row -->
+                            </div> <!-- / .list-group -->
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear
+                              All</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
+                         aria-labelledby="defaultModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body px-5">
+                            <div class="row align-items-center">
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-success justify-content-center">
+                                  <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Control area</p>
+                              </div>
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-primary justify-content-center">
+                                  <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Activity</p>
+                              </div>
+                            </div>
+                            <div class="row align-items-center">
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-primary justify-content-center">
+                                  <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Droplet</p>
+                              </div>
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-primary justify-content-center">
+                                  <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Upload</p>
+                              </div>
+                            </div>
+                            <div class="row align-items-center">
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-primary justify-content-center">
+                                  <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Users</p>
+                              </div>
+                              <div class="col-6 text-center">
+                                <div class="squircle bg-primary justify-content-center">
+                                  <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                                </div>
+                                <p>Settings</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-2 mt-1">
+                      <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                          <div class="modal-content">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="varyModalLabel">Detail</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <div class="card shadow">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Infomation </h5>
+                                        <p class="card-text"><span>Booking id:</span> {{detailsbk.bookingid}}</p>
+                                        <p class="card-text"><span>Create at:</span> {{detailsbk.createat}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.account.fullname}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.account.email}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.orderstatuses.statusname}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.shippingunits.name}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.cost}}</p>
+                                        <p class="card-text"><span>Cost:</span> {{detailsbk.account.listOfAddressusers[0].district}}</p>
+
+
+
+                                        <table class="table table-bordered table-hover mb-0">
+                                          <thead>
+                                          <tr>
+                                            <th>Book ID</th>
+                                            <th>Book Name</th>
+                                            <th>Quantity</th>
+                                            <th>Image</th>
+
+
+
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr ng-repeat="detail in details">
+                                            <td>{{ detail.bookid }}</td>
+                                            <td>{{ detail.books.bookname }}</td>
+                                            <td>{{ detail.quantity }}</td>
+                                            <td><img style="height: 50px" class="img-fluid" ng-init="setImage(detail.bookid)" id="img{{detail.bookid}}"></td>
+                                          </tr>
+
+
+
+
+                                          </tbody>
+                                        </table>
+                                      </div>
+
+                                    </div>
+                                  </div> <!-- Bordered table -->
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> <!-- large modal -->
+
+                    </div>
+                  </main> <!-- main -->
+                </div>
+              </div>
+            </div>
+      <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="list-group list-group-flush my-n3">
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-box fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Package has uploaded successfull</strong></small>
+                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-download fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Widgets are updated successfull</strong></small>
+                      <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-inbox fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Notifications have been sent</strong></small>
+                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                    </div>
+                  </div> <!-- / .row -->
+                </div>
+                <div class="list-group-item bg-transparent">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="fe fe-link fe-24"></span>
+                    </div>
+                    <div class="col">
+                      <small><strong>Link was attached to menu</strong></small>
+                      <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                    </div>
+                  </div>
+                </div> <!-- / .row -->
+              </div> <!-- / .list-group -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main> <!-- main -->
+    
+  </div> <!-- .wrapper -->
+
+</body>
+
+</html>

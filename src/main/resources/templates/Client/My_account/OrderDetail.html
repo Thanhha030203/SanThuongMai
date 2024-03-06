@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/My_account/index_MyAccount::dynamical(~{::maccount})}">
+
+<body>
+    <div th:fragment="maccount">
+        <div class="boxOrderDetail-top">
+            <p class="mt-4" id="pDiaChiNhanHang">Địa chỉ nhận hàng</p>
+            <p class="mt-4" id="pID-orderDetail">ID: <span th:text="${db.get(0).bookings.bookingid}"></span></p> <br>
+            <p id="pAddressDetail">
+                <span th:text="${adr.addressusers.fullname}"></span> <br>
+                <span th:text="${adr.addressusers.phonenumber}"></span> <br>
+                <span th:text="${adr.addressusers.detailhome}"></span>, <span th:text="${adr.addressusers.Ward}"></span>, <span th:text="${adr.addressusers.district}"></span>, <span th:text="${adr.addressusers.province}"></span><br>
+            </p>
+          
+            <div class="deliveryProcess" th:if="${db.get(0).bookings.orderstatuses.statusname} != 'Đơn Huỷ'">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="orderIsConfirm">
+                    <div class="icons-orderIsConfirm">
+                        <i class="bi bi-journal-check"></i>
+                    </div>
+                    <p>Đơn hàng đã đặt</p>
+                </div>
+                <div class="orderIsShipping">
+                    <div class="icons-orderIsShipping">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <p>Đã giao cho ĐVVC</p>
+                </div>
+                <div class="orderHasBeanDelivered">
+                    <div class="icons-orderHasBeanDelivered">
+                        <i class="bi bi-download"></i>
+                    </div>
+                    <p>Đã nhận được hàng</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="boxOrderDetail-bottom mt-2">
+            <div th:each="d : ${db}">
+                <!-- <div class="boxHeader">
+                    <span>
+                        <img id="logoAccountOrderDetail"
+                            th:src="@{|/Client/images/${d.books.shoponlines.listOfFiles.get(0).filename}|}" alt="">
+                        <p class="ms-2 nameAccountOrderDetail" th:text="${d.books.shoponlines.shopname}"></p>
+                    </span>
+                    <button class="btn btnChat-orderDetail-top">Chat</button>
+                    <button class="btn btnViewShop-orderDetail">Xem Shop</button>
+                    <p id="pStatus-orderDetail">Trạng thái: <span id="spanStatus-orderDetail" th:text="${d.bookings.orderstatuses.statusname}"></span>
+                    </p>
+                </div> -->
+                <span id="spanStatus-orderDetail" th:text="${d.bookings.orderstatuses.statusname}" hidden></span>
+                <div class="boxBody">
+                    <div class="product-orderDetail">
+                        <img class="imgBook-orderDetail"
+                            th:src="@{|/Client/images/${d.books.listOfImagebooks.get(0).name}|}" alt="">
+
+                        <p class="nameBook"> <span th:text="${d.books.bookname}"></span><br>
+                            x<span th:text="${d.quantity}"></span></p>
+                        <button th:if="${d.bookings.orderstatusid == 5 or d.bookings.orderstatusid == 8}" type="button"
+                            th:attr="ng-click=@{|callDetailBooking('${d.dbid}')|}" class="btn btnRating-orderDetail"
+                            data-bs-toggle="modal" id="idRating-orderDetail" data-bs-target="#exampleModal">
+                            Đánh giá
+                        </button> <br style="clear: both;">
+                        <p class="price-orderDetail" th:text="'₫ ' + ${#numbers.formatDecimal(d.books.price*d.quantity,0,'COMMA',0,'POINT')}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="boxFooter">
+                <div class="detailInfo-left">
+                    <table class="tabledetailInfo">
+                        <tr> 
+                            <td >Tổng tiền hàng:</td>
+                            <td th:text="'₫ ' + ${#numbers.formatDecimal(db.get(0).bookings.cost,0,'COMMA',0,'POINT')}"></td>
+                        </tr>
+                        <tr>
+                            <td>Phí vận chuyển:</td>
+                            <td th:text="'₫ ' + ${#numbers.formatDecimal(db.get(0).bookings.shippingunits.cod,0,'COMMA',0,'POINT')}">15.00</td>
+                        </tr>
+                        <tr>
+                            <td>Voucher:</td>
+                            <td th:text="'- ₫ ' + ${#numbers.formatDecimal(db.get(0).bookings.costvoucher,0,'COMMA',0,'POINT')}">-30.00</td>
+                        </tr>
+                        <tr>
+                            <td>Đơn vị vận chuyển</td>
+                            <td th:text="${db.get(0).bookings.shippingunits.name}">-30.00</td>
+                        </tr>
+                        <tr>
+                            <td>Phương thức thanh toán:</td>
+                            <td th:if ="${db.get(0).bookings.listOfPayments.get(0).type == false}">Tiền mặt</td>
+                            <td th:if ="${db.get(0).bookings.listOfPayments.get(0).type == true}">Thanh toán qua thẻ ngân hàng</td>
+                        </tr>
+                        <tr>
+                            <td>Thành tiền:</td>
+                            <td th:text="'₫ ' + ${#numbers.formatDecimal(db.get(0).bookings.cost+db.get(0).bookings.shippingunits.cod-db.get(0).bookings.costvoucher-db.get(0).bookings.costship,0,'COMMA',0,'POINT')}">295.00</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detailInfo-right">
+                    <button   th:attr="ng-click=@{|printOrder('${db.get(0).bookings.bookingid}')|}"  th:if="${db.get(0).bookings.orderstatusid} == 8 And ${db.get(0).bookings.orderstatusid} == 5"  class="btn btnBuilOrrder-orderDetail">Xuất hoá đơn </button>
+                    <button class="btn btnBuyAgain-orderDetail" th:if="${db.get(0).bookings.orderstatusid} == 8 " th:attr="ng-click=@{|cart.repurchase('${db.get(0).bookingid}')|}">Mua lại </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content boxRateProduct">
+                    <div class="modal-header" style="border: none;">
+                        <h3 class="modal-title" id="exampleModalLabel">Đánh Giá Sản Phẩm</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="rateProduct mb-5">
+                            <img class="imgProductRate" id="imgb{{add.books.bookid}}" 
+                                style="width: 73.75px; height: 110px; border-radius: 10px; float: left;"
+                                alt="">
+                            <span ></span>
+                            <p class="nameProductRate">{{add.books.bookname}}</p> <br> <br>
+                            <button class="btn btnChooseImageRate" hidden>Chọn ảnh</button>
+                            <div id="rating" class="star-rate">
+                                <input type="radio" onclick="ab(id)" id="star5" name="rating" value="5" />
+                                <label class="full" for="star5" title="Awesome - 5 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star4half" name="rating" value="4.5" />
+                                <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star4" name="rating" value="4" />
+                                <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star3half" name="rating" value="3.5" />
+                                <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star3" name="rating" value="3" />
+                                <label class="full" for="star3" title="Meh - 3 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star2half" name="rating" value="2.5" />
+                                <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star2" name="rating" value="2" />
+                                <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star1half" name="rating" value="1.5" />
+                                <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+
+                                <input type="radio" onclick="ab(id)" id="star1" name="rating" value="1" />
+                                <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+
+                                <input type="radio" onclick="ab(id)" id="starhalf" name="rating" value="half" />
+                                <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                            </div>
+                            <textarea ng-model="evaluate.reviewtext" name="" id="detailedReview" cols="80" rows="5"
+                                placeholder="Chia sẻ mọi suy nghĩ của bạn về sản phẩm!"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border: none;">
+                        <button type="button" class="btn btnFinish-rateProduct" ng-click="postEvaluate()">Hoàn
+                            thành</button>
+                        <button type="button" class="btn btnCancel-rateProduct" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

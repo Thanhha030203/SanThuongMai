@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" ng-app="Admin">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title th:text="${title}">Admin</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/simplebar.css}">
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/feather.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/select2.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/dropzone.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/uppy.min.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/jquery.steps.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/quill.snow.css}">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/daterangepicker.css}">
+    <!-- App CSS -->
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/app-light.css}" id="lightTheme">
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/app-dark.css}" id="darkTheme" disabled>
+</head>
+
+
+
+<!-- Your content goes here -->
+
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+<script th:src="@{/Admin/Js/angularJs/homePageAdminAngularJS.js}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="vertical  light  " >
+<header >
+    <nav class="topnav navbar navbar-light">
+        <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
+            <i class="fe fe-menu navbar-toggler-icon"></i>
+        </button>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="light">
+                    <i class="fe fe-sun fe-16"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
+                    <span class="fe fe-grid fe-16"></span>
+                </a>
+            </li>
+            <li class="nav-item nav-notif">
+                <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
+                    <span class="fe fe-bell fe-16"></span>
+                    <span class="dot dot-md bg-success"></span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink"
+                   role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="avatar avatar-sm mt-2">
+              <img th:src="@{/SellerChannel/assets/avatars/face-1.jpg}" alt="..." class="avatar-img rounded-circle">
+            </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="#">Activities</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+        <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+            <i class="fe fe-x"><span class="sr-only"></span></i>
+        </a>
+        <nav class="vertnav navbar navbar-light">
+            <!-- nav bar -->
+            <div class="w-100 mb-4 d-flex">
+                <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="#!/">
+                    <img th:src="@{/SellerChannel/assets/images/LogoiBook.png}" class="img-fluid"
+                         style="height: 60px;">
+                </a>
+            </div>
+            <ul class="navbar-nav flex-fill w-100 mb-2">
+                <li class="nav-item">
+                    <a href="#!/" aria-expanded="false" class="nav-link">
+                        <i class="fe fe-home fe-16"></i>
+                        <span class="ml-3 item-text">Dashboard</span><span class="sr-only"></span>
+                    </a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav flex-fill w-100 mb-2">
+                <li class="nav-item dropdown">
+                    <a href="#ui-elements" data-toggle="collapse" aria-expanded="false"
+                       class="dropdown-toggle nav-link">
+                        <i class="fe fe-box fe-16"></i>
+                        <span class="ml-3 item-text">Statistical Management</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/"><span
+                                    class="ml-1 item-text">By User Order</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/admin/findtop5"><span class="ml-1 item-text">By Top 5</span></a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fe fe-credit-card fe-16"></i>
+                        <span class="ml-3 item-text">Payment</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100" id="forms">
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/api/payment/callpayment"><span class="ml-1 item-text">Call Payment</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#!/sales" aria-expanded="false" class="nav-link">
+                        <i class="fe fe-home fe-16"></i>
+                        <span class="ml-3 item-text">Sales Analysis</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fe fe-credit-card fe-16"></i>
+                        <span class="ml-3 item-text">Voucher</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100" id="forms">
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/admin/createvoucher"><span class="ml-1 item-text">Create Voucher</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+            
+            <p class="text-muted nav-heading mt-4 mb-1">
+                <span>Setting</span>
+            </p>
+            <ul class="navbar-nav flex-fill w-100 mb-2">
+                <li class="nav-item dropdown">
+                    <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fe fe-file fe-16"></i>
+                        <span class="ml-3 item-text">Setting</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/shop/setting/address">
+                                <span class="ml-1 item-text">Address setting</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/shop/setting/shipping">
+                                <span class="ml-1 item-text">Shipping setting</span>
+                            </a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-3" href="#!/shop/setting/account">
+                                <span class="ml-1 item-text">Account setting</span>
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#auth" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fe fe-shield fe-16"></i>
+                        <span class="ml-3 item-text">Finance</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100" id="auth">
+                        <a class="nav-link pl-3" href=""><span class="ml-1">Revenue</span></a>
+                        <a class="nav-link pl-3" href=""><span class="ml-1">IBook Account Balance</span></a>
+
+                    </ul>
+                </li>
+            </ul>
+            <p class="text-muted nav-heading mt-4 mb-1">
+                <span>Documentation</span>
+            </p>
+            <ul class="navbar-nav flex-fill w-100 mb-2">
+                <li class="nav-item w-100">
+                    <a class="nav-link" th:href="@{/seller/index}">
+                        <i class="fe fe-help-circle fe-16"></i>
+                        <span class="ml-3 item-text">How to use?</span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </aside>
+    <ng-view >
+
+    </ng-view>
+
+</header>
+
+
+<script th:src="@{/SellerChannel/js/jquery.min.js}"></script>
+<script th:src="@{/SellerChannel/js/popper.min.js}"></script>
+<script th:src="@{/SellerChannel/js/moment.min.js}"></script>
+<script th:src="@{/SellerChannel/js/bootstrap.min.js}"></script>
+<script th:src="@{/SellerChannel/js/simplebar.min.js}"></script>
+<script th:src="@{/SellerChannel/js/daterangepicker.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.stickOnScroll.js}"></script>
+<script th:src="@{/SellerChannel/js/tinycolor-min.js}"></script>
+
+<script th:src="@{/SellerChannel/js/d3.min.js}"></script>
+<script th:src="@{/SellerChannel/js/topojson.min.js}"></script>
+<script th:src="@{/SellerChannel/js/datamaps.all.min.js}"></script>
+<script th:src="@{/SellerChannel/js/datamaps-zoomto.js}"></script>
+<script th:src="@{/SellerChannel/js/datamaps.custom.js}"></script>
+<script th:src="@{/SellerChannel/js/Chart.min.js}"></script>
+<script th:inline="javascript">
+    /* define global options */
+    Chart.defaults.global.defaultFontFamily = /*[[@{/path/to/your/font-family}]]*/ 'base.defaultFontFamily';
+    Chart.defaults.global.defaultFontColor = /*[[@{/path/to/your/font-color}]]*/ 'colors.mutedColor';
+</script>
+<script th:src="@{/SellerChannel/js/gauge.min.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.sparkline.min.js}"></script>
+<script th:src="@{/SellerChannel/js/apexcharts.min.js}"></script>
+<script th:src="@{/SellerChannel/js/apexcharts.custom.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.mask.min.js}"></script>
+<script th:src="@{/SellerChannel/js/select2.min.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.steps.min.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.validate.min.js}"></script>
+<script th:src="@{/SellerChannel/js/jquery.timepicker.js}"></script>
+<script th:src="@{/SellerChannel/js/dropzone.min.js}"></script>
+<script th:src="@{/SellerChannel/js/uppy.min.js}"></script>
+<script th:src="@{/SellerChannel/js/quill.min.js}"></script>
+<script>
+    $('.select2').select2(
+        {
+            theme: 'bootstrap4',
+        });
+    $('.select2-multi').select2(
+        {
+            multiple: true,
+            theme: 'bootstrap4',
+        });
+    $('.drgpicker').daterangepicker(
+        {
+            singleDatePicker: true,
+            timePicker: false,
+            showDropdowns: true,
+            locale:
+                {
+                    format: 'MM/DD/YYYY'
+                }
+        });
+    $('.time-input').timepicker(
+        {
+            'scrollDefault': 'now',
+            'zindex': '9999' /* fix modal open */
+        });
+    /** date range picker */
+    if ($('.datetimes').length) {
+        $('.datetimes').daterangepicker(
+            {
+                timePicker: true,
+                startDate: moment().startOf('hour'),
+                endDate: moment().startOf('hour').add(32, 'hour'),
+                locale:
+                    {
+                        format: 'M/DD hh:mm A'
+                    }
+            });
+    }
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $('#reportrange').daterangepicker(
+        {
+            startDate: start,
+            endDate: end,
+            ranges:
+                {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+        }, cb);
+    cb(start, end);
+    $('.input-placeholder').mask("00/00/0000",
+        {
+            placeholder: "__/__/____"
+        });
+    $('.input-zip').mask('00000-000',
+        {
+            placeholder: "____-___"
+        });
+    $('.input-money').mask("#.##0,00",
+        {
+            reverse: true
+        });
+    $('.input-phoneus').mask('(000) 000-0000');
+    $('.input-mixed').mask('AAA 000-S0S');
+    $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+        {
+            translation:
+                {
+                    'Z':
+                        {
+                            pattern: /[0-9]/,
+                            optional: true
+                        }
+                },
+            placeholder: "___.___.___.___"
+        });
+    // editor
+    var editor = document.getElementById('editor');
+    if (editor) {
+        var toolbarOptions = [
+            [
+                {
+                    'font': []
+                }],
+            [
+                {
+                    'header': [1, 2, 3, 4, 5, 6, false]
+                }],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [
+                {
+                    'header': 1
+                },
+                {
+                    'header': 2
+                }],
+            [
+                {
+                    'list': 'ordered'
+                },
+                {
+                    'list': 'bullet'
+                }],
+            [
+                {
+                    'script': 'sub'
+                },
+                {
+                    'script': 'super'
+                }],
+            [
+                {
+                    'indent': '-1'
+                },
+                {
+                    'indent': '+1'
+                }], // outdent/indent
+            [
+                {
+                    'direction': 'rtl'
+                }], // text direction
+            [
+                {
+                    'color': []
+                },
+                {
+                    'background': []
+                }], // dropdown with defaults from theme
+            [
+                {
+                    'align': []
+                }],
+            ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+            {
+                modules:
+                    {
+                        toolbar: toolbarOptions
+                    },
+                theme: 'snow'
+            });
+    }
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script>
+    var uptarg = document.getElementById('drag-drop-area');
+    if (uptarg) {
+        var uppy = Uppy.Core().use(Uppy.Dashboard,
+            {
+                inline: true,
+                target: uptarg,
+                proudlyDisplayPoweredByUppy: false,
+                theme: 'dark',
+                width: 770,
+                height: 210,
+                plugins: ['Webcam']
+            }).use(Uppy.Tus,
+            {
+                endpoint: 'https://master.tus.io/files/'
+            });
+        uppy.on('complete', (result) => {
+            console.log('Upload complete! We’ve uploaded these files:', result.successful)
+        });
+    }
+</script>
+<script src="/SellerChannel/js/apps.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-56159088-1');
+</script>
+</body>
+
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/My_account/index_MyAccount::dynamical(~{::maccount})}">
+
+<body>
+    <div th:fragment="maccount">
+
+        <p class="mt-4 mb-4 ms-5" id="titleVoucherMA">Kho Voucher</p>
+        <div class="voucherMA" ng-repeat="ds in voucherByUser">
+            <img id="shopimage{{ds.discountcodeid}}{{ds.sales.shopid}}" ng-if="ds.sales.shopid != null"
+                ng-init="setShop(ds.discountcodeid,ds.sales.shopid)" class="imgVoucher shopimage{{ds.sales.shopid}}" alt="">
+            <img  ng-if="ds.sales.shopid == null" th:src="@{/Client/images/LOGO_Website1.png}"
+                class="imgVoucher" alt="">
+            <span class="descriptionsVoucher">
+                <p id="promotionnameVoucher">{{ds.sales.promotionname}}</p>
+                <p id="timeVoucher">Có hiệu lực từ: <span>{{ds.startdiscount}}</span> <a class="" data-bs-toggle="modal" th:attr="ng-click=@{|callVoucherMA(ds.discountcodeid)|}" data-bs-target="#exampleModal1">Chi tiết</a>
+                </p>
+            </span>
+        </div>
+
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content boxDetailDiscount">
+                    <div class="detail-voucherMA">
+                        <img id="shopimage1{{discount.discountcodeid}}{{discount.sales.shopid}}" ng-if="discount.sales.shopid != null"
+                            ng-init="setShop(discount.discountcodeid,discount.sales.shopid)" class="detail-imgVoucher" alt="">
+                        <img  ng-if="discount.sales.shopid == null" th:src="@{/Client/images/LOGO_Website1.png}"
+                            class="detail-imgVoucher" alt="">
+                        <span class="detail-descriptionsVoucher">
+                            <p id="detail-promotionnameVoucher">{{discount.sales.promotionname}}</p>
+                            <p id="detail-timeVoucher">Có hiệu lực từ: <span>{{discount.startdiscount}}</span>
+                            </p>
+                        </span>
+                    </div>
+                    <div class="modal-body" style="padding: 0 30px 0 30px;">
+                        <strong>Hạn sử dụng mã</strong>
+                        <p>Từ {{discount.startdiscount}} đến {{discount.enddiscount}}</p><br>
+                        <strong>Ưu đãi</strong>
+                        <p>Nhanh tay kẻo lỡ bạn nhé! Giảm <span>{{discount.sales.discountpercentage*100}}</span>% đơn tối thiểu 
+                            <span ng:if="discount.sales.minprice != null ">{{discount.sales.minprice}}</span><span ng:if="discount.sales.minprice == null">0Đ</span>.</p><br>
+                        <strong>Áp dụng cho sản phẩm</strong>
+                        <p> Mã áp dụng trên App cho các sản phẩm tham gia chương trình và người dùng nhất định.</p><br>
+                    </div>
+                    <button type="button" class="btnCancel-detailVoucher" data-bs-dismiss="modal">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js "
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
+            crossorigin="anonymous "></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js "
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
+            crossorigin="anonymous "></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    </div>
+</body>
+
+</html>

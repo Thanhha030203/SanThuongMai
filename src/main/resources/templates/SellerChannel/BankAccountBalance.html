@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+    <link rel="stylesheet" th:href="@{/SellerChannel/css/bankAccountBalance.css}">
+
+</head>
+<body>
+<section class="vh-100" style="background-color: #f4f5f7;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex h-100">
+            <div class="col col-lg-12 mb-4 mb-lg-0">
+                <div class="card mb-3" style="border-radius: .5rem;">
+                    <div class="row g-0">
+                        <div class="col-md-4 gradient-custom text-center text-white"
+                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                            <img src="https://pngimg.com/d/bank_PNG24.png"
+                                 alt="Avatar" class="img-fluid my-5" style="width: 150px;" />
+                            <h5>Bank Account</h5>
+                            <p>{{accountBalance.bankname}}</p>
+                            <i class="far fa-edit mb-5"></i>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-4">
+                                <h4>Information</h4>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+                                    <div class="col-6 mb-3">
+                                        <h6>Name</h6>
+                                        <p class="text-muted">{{accountBalance.name}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>ID card</h6>
+                                        <p class="text-muted">{{accountBalance.cccd}}</p>
+                                    </div>
+                                </div>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+
+                                    <div class="col-6 mb-3">
+                                        <h6>Bank name</h6>
+                                        <p class="text-muted">{{accountBalance.bankname}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Account number</h6>
+                                        <p class="text-muted">{{accountBalance.accountnumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start">
+                                   <button class="btn btn-warning" ng-if="accountBalance.paid != null">Change</button>
+                                    <a class="btn btn-primary" ng-if="accountBalance.paid == null" href="#!/finance/createBankAccount" >New Bank Account</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

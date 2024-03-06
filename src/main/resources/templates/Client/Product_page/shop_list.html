@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/index::dynamic(~{::main})}">
+
+<body>
+    <main ng-controller="cart_ctrl" style="clear: both; margin: 100px 0px 150px 0px;">
+        <div class="container-fliud">
+            <div style="width: 90%; margin: auto;">
+               
+                <div class="row">
+                    <div class="col-sm-4 my-3" ng-repeat ="s  in shopAll | filter: filtershop">
+                        <div class="d-flex py-3" style="border: solid 1px rgb(209, 208, 208); border-radius: 10px;">
+                            <div class="p-2" style="width: 150px; height: 150px; ">
+                                <img id="shopimage{{s.shopid}}" ng-init="setShop(s.shopid)" width="100%" height="100%"
+                                    style="border-radius: 50%; border: solid 1px rgb(214, 213, 213);" alt="">
+                            </div>
+                            <div class="pt-4 ps-4 flex-fill">
+                                <a href="/shop/{{s.shopid}}"><strong style="font-size: 25px;" id="{{s.shopid}}" ng-click="toShopDetail(s.shopid)">{{s.shopname}}</strong></a>
+                                <p ng-init="SoldQuan(s.shopid)">
+                                    <span>Sản phẩm : </span>  <span id="soldBook{{s.shopid}}"> </span> <span class="ms-4" >SL Bán : </span>  <span id="soldQuan{{s.shopid}}"></span>
+                                </p>
+                                <p style="width: 400px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >
+                                   <span>{{s.description}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+ 
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

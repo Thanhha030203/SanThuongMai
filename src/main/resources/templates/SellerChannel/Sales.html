@@ -1,0 +1,505 @@
+
+  <body class="vertical dark">
+    <div class="wrapper">
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3" style="background-color: transparent;">
+                  <li class="breadcrumb-item"><a href="#">Tranport Channel</a></li>
+
+                  <li class="breadcrumb-item active" aria-current="page">Sales</li>
+                </ol>
+              </nav>
+              <h3>Sales</h3>
+
+
+              <div class="mb-2 align-items-center">
+                <div class="card shadow">
+                  <div class="card-body">
+
+                    <div class="tab-content mb-1" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="pills-All" role="tabpanel" aria-labelledby="pills-All-tab"> 
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <input type="text" class="form-control" ng-model="searchText.bookid" placeholder="Search by ID"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <form class="mb-3">
+                                <input class="form-control text-muted" placeholder="Type bookname..." aria-label="Search" ng-model="searchText.bookname">
+                                <br>
+                              </form>
+                            </div>
+                            </div>
+                          </div>
+                        </div>    
+                      </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-2 mb-2 align-items-center">
+                <div class="card shadow">
+                  <div class="card-body">
+
+                    <main role="main">
+                      <div class="container-fluid">
+                        <div class="row justify-content-center">
+                          <div class="col-12">
+                            <div class="row my-4">
+                              <!-- Small table -->
+                              <div class="col-md-12">
+                                <div class="card shadow">
+                                  <div class="card-body">
+                                    <!-- table -->
+
+                                      <table class="table datatables" id="dataTable-1">
+                                        <thead>
+                                        <tr>
+                                          <th>ID</th>
+                                          <th>Name</th>
+                                          <th>Image</th>
+                                          <th>Language</th>
+                                          <th>Active?</th>
+                                          <th>Action</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="book in paginatedBooks | filter: searchText">
+                                          <td>{{ book.bookid }}</td>
+                                          <td>{{ book.bookname }}</td>
+                                          <td><img style="height: 50px" class="img-fluid" ng-init="setImage(book.bookid)" id="img{{book.bookid}}"></td>
+
+                                          <td>{{ book.language }}</td>
+                                          <td>
+                                            <div class="custom-control custom-switch">
+                                              <input type="checkbox" class="custom-control-input" id="c{{$index + 1}}" ng-checked="book.isactive" ng-model="book.isactive" ng-change="updateIsActive(book)">
+                                              <label class="custom-control-label" for="c{{$index + 1}}"></label>
+                                            </div>
+                                          </td>
+                                          <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+                                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="text-muted sr-only">Action</span>
+                                          </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                              <a class="dropdown-item" data-toggle="modal" data-target=".bd-example-modal-xl">Edit</a>
+
+                                              <a class="dropdown-item" ng-click="deleteIsChoose(book)">Remove</a>
+
+                                            </div>
+
+                                          </td>
+                                        </tr>
+
+
+
+
+                                        </tbody>
+
+                                        <nav aria-label="Page navigation example">
+                                          <ul class="pagination">
+                                            <li class="page-item" ng-class="{disabled: currentPage === 1}">
+                                              <a class="page-link" ng-click="setPage(currentPage - 1)">Previous</a>
+                                            </li>
+                                            <li class="page-item" ng-repeat="page in getPages()" ng-class="{active: currentPage === page}">
+                                              <a class="page-link" ng-click="setPage(page)">{{ page }}</a>
+                                            </li>
+                                            <li class="page-item" ng-class="{disabled: currentPage === totalPages}">
+                                              <a class="page-link" ng-click="setPage(currentPage + 1)">Next</a>
+                                            </li>
+                                          </ul>
+                                        </nav>
+                                      </table>
+
+                                  </div>
+                                </div>
+                              </div> <!-- simple table -->
+                            </div> <!-- end section -->
+                          </div> <!-- .col-12 -->
+                        </div> <!-- .row -->
+                      </div> <!-- .container-fluid -->
+                      <div class="form-group col-md-2 mt-1">
+
+                        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="varyModalLabel">Edit book</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form ng-submit="createBook()" enctype="multipart/form-data">
+                                    <div class="form-row">
+                                      <div class="form-group col-md-6">
+                                        <label for="bookname">Product’s name</label>
+                                        <input type="text" ng-model="bookname" required class="form-control" placeholder="Product’s name">
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label for="inputState">Category</label>
+                                        <select ng-options="category.categoryid as category.name for category in categories" ng-model="category" class="form-control">
+
+                                        </select>
+                                        <input type="hidden" id="categoryid" name="categoryid">
+                                      </div>
+                                    </div>
+                                    <div class="form-row">
+                                      <div class="form-group col-md-3">
+                                        <label for="language">Language</label>
+                                        <input type="text" ng-model="language" required class="form-control" placeholder="Example: English">
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                        <label  for="size">Size</label>
+                                        <input type="text" ng-model="size" required class="form-control" placeholder="35 x 10 x 20">
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                        <label  for="quantity">Quantity</label>
+                                        <input type="number" ng-model="quantity" required class="form-control">
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                        <label for="publishingcompanyid">Publishing Company</label>
+                                        <select ng-options="publishingcompany.pcid as publishingcompany.namepc for publishingcompany in publishingCompanies" ng-model="publishingcompanyid" required class="form-control">
+
+                                        </select>
+                                        <input type="hidden" id="publishingcompanyid" name="publishingcompanyid">
+                                      </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                      <div class="form-group col-md-3">
+                                        <label for="price">Price</label>
+                                        <input type="number" step="0.01" ng-model="price" required class="form-control">
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                        <label for="weight">Weight</label>
+                                        <input class="form-control" ng-model="weight" required step="0.1" id="weight" name="weight">
+                                      </div>
+                                      <div class="form-group col-md-3">
+
+                                        <label for="publishingyear">Date Picker</label>
+                                        <div class="input-group">
+                                          <input  ng-model="publishingyear" required type="text" class="form-control drgpicker" value="2023" aria-describedby="button-addon2">
+                                          <div class="input-group-append">
+                                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16 mx-2"></span></div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                        <label for="totalpage">Total page</label>
+                                        <input type="number"  ng-model="totalpage" required class="form-control" min="1">
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="image">Image</label>
+                                      <div class="form-group">
+                                        <label for="images">Images</label>
+                                        <input type="file" id="images" name="images" ng-model="images" multiple accept="image/*" required>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="card-deck mb-4">
+                                          <div class="card border-0 bg-transparent" id="imageContainer">
+                                            <!-- Hiển thị ảnh đã chọn -->
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" ng-model="isactive">
+                                        <label class="form-check-label" for="isactive"> Avtive? </label>
+                                        <div class="invalid-feedback"> You must agree before submitting. </div>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn mb-2 btn-primary">Create</button>
+                                    </div>
+                                  </form>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div> <!-- large modal -->
+
+                      </div>
+                      <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog"
+                        aria-labelledby="defaultModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="list-group list-group-flush my-n3">
+                                <div class="list-group-item bg-transparent">
+                                  <div class="row align-items-center">
+                                    <div class="col-auto">
+                                      <span class="fe fe-box fe-24"></span>
+                                    </div>
+                                    <div class="col">
+                                      <small><strong>Package has uploaded successfull</strong></small>
+                                      <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                                      <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="list-group-item bg-transparent">
+                                  <div class="row align-items-center">
+                                    <div class="col-auto">
+                                      <span class="fe fe-download fe-24"></span>
+                                    </div>
+                                    <div class="col">
+                                      <small><strong>Widgets are updated successfull</strong></small>
+                                      <div class="my-0 text-muted small">Just create new layout Index, form, table
+                                      </div>
+                                      <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="list-group-item bg-transparent">
+                                  <div class="row align-items-center">
+                                    <div class="col-auto">
+                                      <span class="fe fe-inbox fe-24"></span>
+                                    </div>
+                                    <div class="col">
+                                      <small><strong>Notifications have been sent</strong></small>
+                                      <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                                      <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                                    </div>
+                                  </div> <!-- / .row -->
+                                </div>
+                                <div class="list-group-item bg-transparent">
+                                  <div class="row align-items-center">
+                                    <div class="col-auto">
+                                      <span class="fe fe-link fe-24"></span>
+                                    </div>
+                                    <div class="col">
+                                      <small><strong>Link was attached to menu</strong></small>
+                                      <div class="my-0 text-muted small">New layout has been attached to the menu
+                                      </div>
+                                      <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                                    </div>
+                                  </div>
+                                </div> <!-- / .row -->
+                              </div> <!-- / .list-group -->
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear
+                                All</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
+                        aria-labelledby="defaultModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body px-5">
+                              <div class="row align-items-center">
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-success justify-content-center">
+                                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Control area</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-primary justify-content-center">
+                                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Activity</p>
+                                </div>
+                              </div>
+                              <div class="row align-items-center">
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-primary justify-content-center">
+                                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Droplet</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-primary justify-content-center">
+                                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Upload</p>
+                                </div>
+                              </div>
+                              <div class="row align-items-center">
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-primary justify-content-center">
+                                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Users</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                  <div class="squircle bg-primary justify-content-center">
+                                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                                  </div>
+                                  <p>Settings</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </main> <!-- main -->
+                  </div>
+                  </div>
+              </div>
+  
+  
+           
+              <div class="row">
+             
+            
+              </div> <!-- .row-->
+            </div> <!-- .col-12 -->
+            </div>
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="list-group list-group-flush my-n3">
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-box fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Package has uploaded successfull</strong></small>
+                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-download fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Widgets are updated successfull</strong></small>
+                        <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-inbox fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Notifications have been sent</strong></small>
+                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-link fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Link was attached to menu</strong></small>
+                        <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                      </div>
+                    </div>
+                  </div> <!-- / .row -->
+                </div> <!-- / .list-group -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body px-5">
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Control area</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Activity</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Droplet</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Upload</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Users</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Settings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main> <!-- main -->
+    </div> <!-- .wrapper -->

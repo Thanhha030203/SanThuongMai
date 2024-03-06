@@ -1,0 +1,71 @@
+body{
+    background-image: url(../images/Register-page.png);
+    background-size: cover;
+}
+.frameRegister {
+    margin: 6% 0 0 42%;
+    width: 45%;
+    height: 550px;
+    border-radius: 40px;
+    color: white;
+}
+
+#titleRegister {
+    font-size: 53px;
+    font-weight: 700;
+    margin-top: 25px;
+    padding-bottom: 20px;
+}
+
+.logoTeam {
+    width: 139px;
+    height: 139px;
+    float: right;
+}
+input{
+    height: 48px;
+    background-color: black !important;
+    color: white !important;
+    border: none !important;
+}
+input:focus{
+    height: 48px;
+    background-color: black !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+::placeholder{
+    color: #7f7f7f;
+}
+
+.btnContinue{
+    width: 200px;
+    height: 48px;
+    font-weight: 300 !important;
+    font-size: 18px !important;
+    background-color: #4B72C2 !important;
+    color: white !important;
+}
+.btnContinue:hover{
+    width: 200px;
+    height: 48px;
+    font-weight: 300 !important;
+    font-size: 18px !important;
+    background-color: #2f497c !important;
+    color: white !important;
+}
+hr{
+    color: black !important;
+    height: 2px !important;
+}
+.pSignin{
+    color: #afafaf;
+    font-size: small;
+    font-weight: 80;
+}
+.pSignin a{
+    text-decoration: none;
+    color: #56aff8;
+}
+

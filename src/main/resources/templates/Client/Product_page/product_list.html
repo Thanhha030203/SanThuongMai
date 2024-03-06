@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/index::dynamic(~{::main})}">
+<body>
+    <main ng-controller="cart_ctrl" style="width: 98%; height: auto; margin: auto; margin-top: 70px;">
+        <div></div>
+        <div>
+            <div class="d-inline-flex p-3 text-white">
+                <div class="p-2">
+                    <form action="/list">
+                        <label class="text-dark">Lọc:</label>
+                        <select class="btn btn-light" title="Sắp xếp" name="or" ng-model="or" ng-change="orderBy()">Sắp
+                            xếp
+                            <option value="price">Giá tăng dần</option>
+                            <option value="-price">Giá giảm dần</option>
+                        </select>
+                    </form>
+
+                    <script>
+
+                        document.getElementById("sortDirection").addEventListener("change", function () {
+
+                            document.getElementById("sortForm").submit();
+                        });
+                    </script>
+                </div>
+                <div class="p-2">
+                    <a ng-click="newyear()" class="btn btn-primary">Mới nhất</a>
+                </div>
+                <div class="p-2">
+                    <a ng-click="bestseller()" class="btn btn-success">Bán chạy nhất</a>
+                </div>
+            </div>
+
+        </div>
+        <aside>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="" style="color: white;" data-bs-toggle="collapse" href="#typebook"> Thể
+                            loại sách </a>
+                    </div>
+                    <div id="typebook" class="collapse show">
+                        <div class="card-body">
+                            <form action="">
+                                <div th:each="category : ${categories}">
+                                    <div class="form-check">
+                                        <input onchange="angular.element(this).scope().filterChoose(1,this)"
+                                            th:id="${category.categoryid}" th:value="${category.categoryid}"
+                                            type="checkbox" class="form-check-input">
+                                        <!-- ng-click="filterChoose(this,s)"  th:attr ="ng-model=@{|${category.categoryid}|}" th:value="${category.categoryid}"  th:id ="${category.name}" -->
+                                        <label class="form-check-label" th:text="${category.name}"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed " style="color: white;" data-bs-toggle="collapse" href="#writer">
+                            Tác giả </a>
+                    </div>
+                    <div id="writer" class="collapse">
+                        <div class="card-body">
+                            <form action="">
+                                <div th:each="writer : ${writtingmasters}">
+                                    <div class="form-check">
+                                        <input onchange="angular.element(this).scope().filterChoose(2,this)"
+                                            th:id="${writer.writtingmasterid}" type="checkbox" class="form-check-input">
+                                        <label class="form-check-label" th:text="${writer.namewm}"></label>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed " style="color: white;" data-bs-toggle="collapse" href="#publishCompany">
+                            Nhà xuất bản </a>
+                    </div>
+                    <div id="publishCompany" class="collapse">
+                        <div class="card-body">
+                            <form action="">
+                                <div th:each="publishingcompani : ${publishingcompanies}">
+                                    <div class="form-check">
+                                        <input onchange="angular.element(this).scope().filterChoose(3,this)"
+                                            th:id="${publishingcompani.namepc}" type="checkbox"
+                                            class="form-check-input">
+                                        <label class="form-check-label" th:text="${publishingcompani.namepc}"></label>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed" style="color: white;" data-bs-toggle="collapse" href="#price">
+                            Giá </a>
+                    </div>
+                    <div id="price" class="collapse">
+                        <div class="card-body">
+                            <form action="">
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(4,this)" th:id="0"
+                                        type="checkbox" class="form-check-input">
+                                    <label class="form-check-label" for="check1">Dưới 100k</label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(4,this)" th:id="1"
+                                        type="checkbox" class="form-check-input">
+                                    <label class="form-check-label" for="check2">Từ 100k đến 200k</label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(4,this)" th:id="2"
+                                        type="checkbox" class="form-check-input"> <label class="form-check-label">Từ
+                                        200k đến 400k</label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(4,this)" th:id="4"
+                                        type="checkbox" class="form-check-input"> <label class="form-check-label">Từ
+                                        400k đến 600k</label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(4,this)" th:id="6"
+                                        type="checkbox" class="form-check-input"> <label class="form-check-label">Trên
+                                        600k</label>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <a style="color: white;" class="collapsed" data-bs-toggle="collapse" href="#rating">
+                            Đánh giá </a>
+                    </div>
+                    <div id="rating" class="collapse">
+                        <div class="card-body">
+                            <form action="">
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(5,this)" th:id="1"
+                                    type="radio" name = "filterRa" class="form-check-input">
+                                    <label class="form-check-label" for="check1">
+                                        <div class="stars" style="font-size: 22px;">
+                                            <span><i class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star"></i></span> <span><i
+                                                    class="bi bi-star"></i></span>
+                                            <span><i class="bi bi-star"></i></span> <span><i
+                                                    class="bi bi-star"></i></span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(5,this)" th:id="2"
+                                    type="radio" name = "filterRa" class="form-check-input"> <label class="form-check-label"
+                                        for="check2">
+                                        <div class="stars" style="font-size: 22px;">
+                                            <span><i class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star"></i></span> <span><i
+                                                    class="bi bi-star"></i></span>
+                                            <span><i class="bi bi-star"></i></span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(5,this)" th:id="3"
+                                    type="radio" name = "filterRa" class="form-check-input">
+                                    <label class="form-check-label" for="check2">
+                                        <div class="stars" style="font-size: 22px;">
+                                            <span><i class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star"></i></span> <span><i
+                                                    class="bi bi-star"></i></span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(5,this)" th:id="4"
+                                    type="radio" name = "filterRa" class="form-check-input">
+                                    <label class="form-check-label" for="check2">
+                                        <div class="stars" style="font-size: 22px;">
+                                            <span><i class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star"></i></span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input onchange="angular.element(this).scope().filterChoose(5,this)" th:id="5"
+                                    type="radio" name = "filterRa" class="form-check-input">
+                                    <label class="form-check-label" for="check2">
+                                        <div class="stars" style="font-size: 22px;">
+                                            <span><i class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span> <span><i
+                                                    class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <article>
+            <div class="my-5">
+                <div class="book_center" style="width: 100%; clear: both;">
+                    <div class="row">
+                        <div class="col-md-3" ng-repeat="b in sp | filter : filterByPrice | filter : filterByGenres | filter : filterByCate | filter : filterByWriter | filter : filterByRatting | filter : filterAll | orderBy:or">
+                            <div class="wsk-cp-product">
+                                <div class="wsk-cp-img" ng-click = "detailBook(b.bookid)">
+                                    <img  id="product{{b.bookid}}" ng-init="setImageBook(b.bookid)"  alt="Product" class="img-responsive" />
+                                </div>
+                                <div class="wsk-cp-text">
+                                    <div class="category">
+                                        <span>{{b.shoponlines.shopname}}</span>
+                                    </div>
+                                    <div class="title-product">
+                                        <h3>{{b.bookname}}</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class=""><span class="">Đã bán {{b.quantitysold}}</span></div>
+                                        <div class="wcf-left"><span class="price">{{b.price | currency : "" : 0}} đ</span></div>
+                                        <div class="wcf-right"><a href="" class="buy-btn " ng-click="cart.add(b.bookid)" ><i class="bi bi-cart3" style="margin: auto"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shell">
+                    <div class="container">
+                    </div>
+                </div>
+            </div>
+                <div class="container" style="clear: both;">
+                    <!-- Hiển thị tiêu đề sắp xếp -->
+
+                    <ul class="pagination justify-content-center my-5">
+                        <li th:classappend="${currentPage == 0} ? 'page-item' : ''"
+                            th:each="page, iterStat : ${#numbers.sequence(0, totalPages - 1)}">
+                            <a th:href="@{/product/list(page=${page})}" class="page-link" th:text="${page + 1}"></a>
+                        </li>
+                    </ul>
+                </div>
+        </article>
+        <br>
+        <script th:src="@{/Client/Js/cart/cart.js}"></script>
+        <script src="../../../static/Client/Js/cart/cart.js"></script>
+        <script th:src="@{/Client/Js/cart.js}"></script>
+    </main>
+</body>
+
+</html>

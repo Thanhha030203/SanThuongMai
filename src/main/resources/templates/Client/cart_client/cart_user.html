@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/index::dynamic(~{::main})}">
+<body>
+     <main  ng-controller="cart_ctrl">
+        <div style="width: 85%; margin: auto; margin-top: 100px;" id="user1">
+            <div class="mx-5" >
+            </div>
+            <!-- sử dụng lặp shop -->
+            <div th:each="l:${cartshoplist}" style="border: 1px solid #C93F04; border-radius: 10px; margin-top: 50px;" th:id="shop+${l.shopid}" >
+                <div class="my-5" style="width: 90%; margin: auto;">
+                    <div class="float-start">
+                        <input type="checkbox"  class="form-check-input float-start mt-2" th:id="${l.shopid}" onclick="choose(id)"  name="inp">
+                        <a href="#" style="text-decoration: none; color: #080808;"><span><i style="font-size: 30px;"
+                                    class="bi bi-person-circle mx-3"></i></span>
+                            <span style="font-size: 22px;" th:text= "${l.shopname}"></span></a>
+                    </div>
+                    <hr style="clear: both;">
+                    <table class="table table-hover" id="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">
+                                </th>
+                                <th colspan="" style="width: 10%; "></th>
+                                <th style="width: 30%;"> Product</th>
+                                <th>Price</th>
+                                <th style="width: 20%;">Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody  th:id="cart+${l.shopid}">
+                            <tr th:each="b:${cartuserList}" th:if="${b.books.shoponlines.shopid == l.shopid}" th:id="cart+${b.cartid}" >
+                                <td>
+                                    <label th:if="${b.books.quantity == 0} OR  ${b.books.quantity < b.quantity} " for=""></label>
+                                    <input th:if="${b.books.quantity >0} AND  ${b.books.quantity >= b.quantity} "  type="checkbox" th:value="${b.cartid}"   onclick="selectOne(id)"  class="form-check-input"  th:id="${b.cartid}" name="carttest">
+                                </td>
+                                <td>
+                                    <div>
+                                        <img th:src="@{|/Client/images/${b.books.listOfImagebooks.get(0).name}|}" style="width: 50%;" alt="">
+                                    </div>
+                                </td>
+                                <td ><a th:href="@{|/product/detail/${b.books.bookid}|}" th:text="${b.books.bookname}"></a></td>
+                                <td th:text ="${#numbers.formatDecimal(b.books.price,0,'COMMA',2,'POINT')}"></td>
+                                <td>
+                                    <label th:if="${b.books.quantity == 0} OR  ${b.books.quantity < b.quantity} "  th:id="quantity+${b.cartid}" value ="0" for="">Hết hàng</label>
+                                    <input type="number" th:if="${b.books.quantity >0} AND  ${b.books.quantity >= b.quantity} "  th:id="quantity+${b.cartid}"  th:attr="onclick=@{|Active(${b.cartid},'PUT')|}" class="form-control" style="width: 100px;" min="1" step="1" th:value="${b.quantity}" >
+                                   <label for="" th:id="messageCart+${b.cartid}"></label>
+                                </td>
+                                <!-- th:attr="ng-click=@{|changequantity(${b.quantity},${b.cartid})|}" -->
+                                <td  class="total_pro" th:if="${b.books.quantity == 0} OR  ${b.books.quantity < b.quantity} ">0.00</td>  
+                                <td  class="total_pro" th:if="${b.books.quantity >0} AND  ${b.books.quantity >= b.quantity} " th:id="cartid+${b.cartid}" th:text ="${#numbers.formatDecimal(b.books.price * b.quantity,0,'COMMA',2,'POINT')}">
+                                </td>
+                                <td><a  th:id="${b.cartid}"  href="#" th:attr="onclick=@{|Active(${b.cartid},'DELETE')|}" style="color: #000;"><i style="font-size: 30px;" class="bi bi-trash"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 
+                    <hr style="clear: both; border: 1px solid black;">
+                <div class="float-start m-3">
+                    <input type="text" width="300px" class="form-control" placeholder="Tìm kiếm mã giảm" name="" id="">
+                 </div>
+                <div class="float-end m-3" ng-repeat="s in cartsvoucher.voucherAll">
+                   <p style="font-size: 22px;">Giảm : <span style="color: #C93F04; font-weight: 500;"  ng-model="s.discountpercentage" ng-if="s.shopid ==  ${p.shopId}" id="voucher_sale"></span></p>
+                </div>
+                <div class="float-end m-3">
+                    <select class="form-select" th:id="voucher+${l.shopid}" th:value="*{saleShopIntendFor}" th:attr="ng-change=@{|cartsvoucher.changevoucher(*{saleShopIntendFor})|}">
+                        <option th:each="i : ${saleShopIntendFor}" th:if="${i.sales.shopid == l.shopid}" th:value="${i.saleid}" th:text="${i.sales.promotionname}"></option>
+                    </select>
+                </div>
+                <hr style="clear: both; border: 2px solid black;">
+                </div>
+            </div>
+
+
+            <div>
+                <div style="width: 100%; height: 150px; margin-top: 50px; border-radius: 5px;" class="border-orange">
+                    <div>
+                        <div style="float: left; font-size: 25px; font-weight: 500; color: #333;  margin-top: 70px; margin-left: 50px;">
+                            <button class="btn btn-success" id="selectAll">Select All</button>
+                <button class="btn btn-danger" id="deleteAll" >Delete All</button>
+                        </div>
+                        <div style="float: right; font-size: 25px; font-weight: 500; color: #333;  margin-top: 50px;">
+                          
+                            <p>
+                                <span>Tổng tiền : <strong class="orange-text" id="allPrice"></strong></span>
+                                <span class="mx-5">
+                              
+                                    <button onclick="deals()"  class="button_all_orange">Mua hàng</button>
+                                 
+                                </span>
+                            </p>
+                  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/Client/Js/cart/cart.js}"></script>
+        <script src="../../../static/Client/Js/cart/cart.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.js"></script>
+    </main>
+</body>
+
+</html>

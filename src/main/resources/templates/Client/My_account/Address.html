@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/Client/My_account/index_MyAccount::dynamical(~{::maccount})}">
+
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../../../static/Client/css/myAccount.css" />
+    <script src="../../../static/Client/Js/MyAccount/address.js"></script>
+    <script th:src="@{/Client/Js/MyAccount/address.js}"></script>
+</head>
+
+<body>
+    <div th:fragment="maccount">
+        <p class="mt-4 ms-5" id="titleAddressSetting">Địa chỉ</p>
+        <div class="addressDetail">
+            <div class="row address1" th:each="adu : ${ad}">
+                <div class="col-9">
+                    <p class="NamePhone"><span th:text="${adu.fullname}"></span> | <span
+                            th:text="${adu.phonenumber}"></span></p>
+                    <p class="pAddressDetail"
+                        th:text="${adu.detailhome}+', '+${adu.Ward}+', '+${adu.district}+', '+${adu.province}"></p>
+                </div>
+                <div class="col-3">
+                    <a class="float-end btnEditAddress" data-bs-toggle="modal"
+                        th:attr="ng-click=@{|callModel('${adu.addressuserid}')|}" data-bs-target="#exampleModal1"><i
+                            class="bi bi-pencil"></i></a><br>
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content boxNewAddress">
+
+                                <div class="modal-header" id="adID" style="border: none;">
+                                    <h3 class="modal-title" id="exampleModalLabel">Cập nhật địa chỉ</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="formNewAddress" class="row">
+
+                                        <div class="mb-3 col-6">
+                                            <input ng-model="add.fullname" type="text" class="form-control"
+                                                id="fullName-newAddress" name="fullNameEditAddress"
+                                                placeholder="Fullname">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <input ng-model="add.phonenumber" type="text" class="form-control"
+                                                id="numberPhone-newAddress" name="numberPhoneEditAddress"
+                                                placeholder="Number phone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <!-- <input  type="text" class="form-control" id="province-newAddress" name="provinceEditAddress"
+                                                placeholder="Province"> -->
+                                            <select id="city1" name="province" ng-model="add.province"
+                                                class="form-select" onchange="citychange()">
+                                                <option value="" selected>Chọn phường xã</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <!-- <input ng-model="add.district" type="text" class="form-control" id="district-newAddress" name="districtEditAddress"
+                                                placeholder="District"> -->
+                                            <select id="district1" ng-model="add.district" name="district"
+                                                class="form-select" onchange="districtchange()">
+                                                <option value="" ng-bind="add.district" selected></option>
+                                            </select>
+
+                                        </div>
+                                        <div class="mb-3">
+
+                                            <!-- <input ng-model="add.Ward" type="text" class="form-control" id="ward-newAddress" name="wardEditAddress"
+                                                placeholder="Ward"> -->
+                                            <select id="ward1" ng-model="add.Ward" class="form-select"
+                                                onchange="wardchange()" name="ward">
+                                                <option value="" ng-bind="add.Ward" selected></option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input ng-model="add.detailhome" type="text" class="form-control"
+                                                id="specificAddress-newAddress" name="specificAddressEditAddress"
+                                                placeholder="Specific Address">
+                                        </div>
+                                        <div class="mb-5">
+                                            <label class="me-3">Trạng thái:</label>
+                                            <form action="" class="form-checked">
+                                                <input value="Mặc định" type="radio"
+                                                       ng-checked="add.statusaddress  === 'Mặc định'"
+                                                       name="sstatusEditAddress" id="" > Mặc định
+                                                <input value="Không" type="radio"
+                                                       ng-checked="add.statusaddress === 'Không'" name="sstatusEditAddress"
+                                                    id=""> Không
+                                            </form>
+                                        </div>
+                                        <button class="btn btnFinish-editAddress" ng-click="updateAdd()">Cập
+                                            nhật</button>
+                                        <button class="btn btn-warning btnDelete-editAddress"
+                                            ng-click="deleteAdd(add.addressuserid)">Xóa</button>
+                                        <button type="button" class="btn btnCancel-newAddress"
+                                            data-bs-dismiss="modal">Trở lại</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button th:if="${adu.statusaddress == 'Không'}" class="btn float-end me-3 mt-3 btnSetToDefault" th:attr="ng-click=@{|setDefault('${adu.addressuserid}')|}"
+                    >Đặt mặc định</button>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btnNewAddress" onclick="callAp()" data-bs-toggle="modal"
+            data-bs-target="#exampleModal2">
+            Thêm địa chỉ mới
+        </button>
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content boxNewAddress">
+                    <div class="modal-header" style="border: none;">
+                        <h3 class="modal-title" id="exampleModalLabel">Địa chỉ mới</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNewAddress" class="row" th:object="${adr}" action="">
+                            <div class="mb-3 col-6">
+                                <input type="text" class="form-control" id="fullName-newAddress"
+                                    name="fullNameNewAddress" placeholder="Fullname">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <input type="text" class="form-control" id="numberPhone-newAddress"
+                                    name="numberPhoneNewAddress" placeholder="Number phone">
+                            </div>
+                            <div class="mb-3">
+                                <select id="city" name="province" class="form-select" onchange="citychange()">
+                                    <option value="" selected>Chọn tỉnh thành</option>
+                                </select>
+
+
+                            </div>
+                            <div class="mb-3">
+                                <!-- <input type="text" class="form-control" id="district-newAddress" name="district"
+                                    placeholder="District"> -->
+                                    <select id="district" name="district" class="form-select" onchange="districtchange()">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                        </select>
+                                        
+                                  
+                                <!-- <select name="" class="form-select" id="district-newAddress">
+                                    <option value="">District</option>
+                                    <option value="">12 District</option>
+                                </select> -->
+                            </div>
+                            <div class="mb-3">
+                                <select id="ward" class="form-select" onchange="wardchange()" name="ward">
+                                    <option value="" selected>Chọn phường xã</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="specificAddress-newAddress"
+                                    name="specificAddressNewAddress" placeholder="Specific Address">
+                            </div>
+                            <div class="mb-5">
+                                <label class="me-3">Trạng thái:</label>
+                                <input value="Mặc định" th:field="*{statusaddress}" type="radio" name="statusAddress"
+                                    id="statusAddress-default"> Mặc định
+                                <input value="Không" th:field="*{statusaddress}" type="radio" name="statusAddress"
+                                    id="statusAddress-non"> Không
+                            </div>
+                            <button type="submit" class="btn btnFinish-newAddress"
+                                th:formaction="@{|/myAccount/newAddress|}" th:formmethod="post">Hoàn thành</button>
+                            <button type="button" class="btn btnCancel-newAddress" data-bs-dismiss="modal">Trở
+                                lại</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../../static/Client/Js/MyAccount/address.js"></script>
+        <script th:src="@{/Client/Js/MyAccount/address.js}"></script>
+        <script src="../../../static/Client/Js/MyAccount/address.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js "
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
+            crossorigin="anonymous "></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js "
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
+            crossorigin="anonymous "></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+body {
+    position: relative;
+    background-image: url(../images/Login-Page.png);
+    background-size: cover;
+}
+.logoTeam {
+    width: 110px;
+    height: 111px;
+    margin: 10px 0 0 10px;
+}
+.frameLoginBackground {
+    position: relative;
+    margin: auto;
+    width: 690px;
+    height: 690px;
+    background-color: #5882C1;
+    border-radius: 40px;
+    opacity: 0.28;
+}
+
+.frameLogin {
+    position: absolute;
+    left: 36.9%;
+    top: 20%;
+    width: 503px;
+    height: 553px;
+    border-radius: 40px;
+    color: white;
+}
+
+#titleLogin {
+    font-size: 38px;
+    font-weight: 700;
+    margin-top: 35px;
+    padding-bottom: 20px;
+}
+
+#logoWebsite{
+    width: 130px;
+    height: 111px;
+    float: right;
+}
+input{
+    border-radius: 10px !important;
+    height: 50px;
+}
+#fogotPassword{
+    font-size: 12px;
+    font-weight: 80;
+}
+.btnSignin{
+    width: 100%;
+    height: 50px;
+    background-color: rgb(217, 217, 217) !important;
+    border-radius: 8px !important;
+    color: orangered !important;
+    font-weight: 700 !important;
+}
+.pOrContinueWith{
+    font-weight: 80;
+    font-size: 14px;
+}
+.btnIcon1, .btnIcon2{
+    width: 150px;
+    height: 50px;
+    border-radius: 8px !important;
+    background-color: #fff !important;
+}
+.btnIcon1{
+    margin: 0 10px 0 calc(50% - 155px);
+}
+#iconChrome, #iconGithub, #iconFB{
+    width: 24px;
+    height: 24px;
+}
+.pRegister{
+    font-weight: 80;
+    font-size: 14px;
+}
+.pRegister a{
+    text-decoration: none !important;
+    color: #fff;
+    font-weight: 600;
+}

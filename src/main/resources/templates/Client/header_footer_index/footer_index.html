@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <!-- th:fragment="dynamic(main)" -->
+<head>
+  <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/shopping-cart-app.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" th:href="@{/Client/css/_index.css}">
+  <link rel="stylesheet" th:href="@{/Client/css/product.css}">
+
+</head>
+
+<body class="text_footer">
+  <footer class="container-fluid " style=" width: 100%;">
+    <div class="footers-h"  style="clear: both;">
+      <div style="text-align: center; margin: 0; padding: 0;">
+        <div style="display:inline-block;position:relative; font-size:14px; margin :0 auto; padding :5px 5px 5px 30px;">
+          <span>Trade Alert - Gửi thông tin mới nhất về xu hướng sản phẩm và tin
+            tức trong ngành vào hộp
+            thư đến của bạn. </span>
+        </div>
+      </div>
+      <div style="position: relative; width:100%; margin: 0 auto; padding: 10px; text-align: center;">
+        <input type="text" placeholder="Email của bạn"
+                style="width: 300px;height: 40px;padding: 10px; margin-top: -3px; font-size: 16px; border: 1px solid #C4C6CF; color: rgb(20, 20, 20);">
+            <input type="button" class=""
+                style="overflow: visible; margin-right: -100%; border-radius: 3px; margin-left: 4px; background: 0 0; font-size: 16px; color: #999; border-color: #C6CAD1; height: 40px; padding: 0 20px; line-height: 40px; border: 2px solid #C6CAD1; vertical-align: baseline; font-style: normal; font-family: inherit; position: relative ; margin: 0; "
+                name="" id="" value="Đăng ký">
+        <div
+          style="font-size: 15px; color: #999; text-align: center;">
+          Chúng tôi sẽ không bao giờ chia sẻ địa chỉ email của bạn với bên thứ ba.
+        </div>
+      </div>
+    </div>
+    <div>
+      <hr style="border-top: 1px solid #446268;">
+      <div class="confooter">
+        <div class="row req_header">
+          <div class=" col-sm-3 col_footer">
+            <div class="d-flex justify-content-center">
+               <dl class="my-5">
+              <dt>Dịch vụ khách hàng</dt>
+              <dd><a href="#">Trung tâm trợ giúp</a></dd>
+              <dd><a href="#"> Báo cáo lạm dụng</a></dd>
+              <dd><a href="#"> Gửi khiếu nại</a></dd>
+              <dd><a href="#">Chính sách và Quy định</a> </dd>
+              <dd><a href="#"> Được trả tiền khi bạn phản hồi</a></dd>
+            </dl>
+          </div>
+          </div>
+          <div class=" col-sm-3 col_footer">
+            <div class="d-flex justify-content-center">
+               <dl class="my-5">
+                <dt>Tìm nguồn hàng trên BookWorms.com</dt>
+                <dd class="ms-5"><a href="#">Nguồn : </a></dd>
+                <dd  class="ms-5"><a href="#"> Tất cả danh mục</a></dd>
+                <dd  class="ms-5"><a href="#"> Yêu cầu báo giá</a></dd>
+                <dd  class="ms-5"><a href="#">Sẵn sàng vận chuyển</a> </dd>
+                <dd  class="ms-5"><a href="#"> Người mua Đối tác</a></dd>
+              </dl>
+           </div>
+          </div>
+          <div class=" col-sm-3 col_footer">
+            <div class="d-flex justify-content-center">
+               <dl class="my-5">
+              <dt>Dịch vụ thương mại</dt>
+              <dd><a href="#">Bảo hiểm thương mại</a></dd>
+              <dd><a href="#"> Nhận dạng doanh nghiệp</a></dd>
+              <dd><a href="#"> Dịch vụ vận chuyển</a></dd>
+              <dd><a href="#">Giám sát sản xuất & dịch vụ kiểm tra</a> </dd>
+              <dd><a href="#"> Letter of Credit</a></dd>
+            </dl>
+            </div>
+          </div>
+          <div class=" col-sm-3 col_footer">
+            <div class="d-flex justify-content-center">
+               <dl class="my-5">
+              <dt>Kết nối với chúng tôi</dt>
+              <dd> <span>Hotline : 1900 8686</span></dd>
+              <dd> <a href="#"> <span><i class="bi bi-envelope"></i> : </span> <span style="margin-left: 5px;">bookworms@gmail.com</span></a></dd>
+              <dd class="my-3"> <span><a href="#"><i class="bi bi-twitter"></i></a></span>
+                 <span><a href="#"><i class="bi bi-facebook"></i></a></span>
+                <span><a href="#"> <i class="bi bi-instagram"></i></a></span>
+                <span><a href="#"><i class="bi bi-youtube"></i></a> </span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div style="height: auto; width: 100%;margin-bottom: 20px; margin-top: 30px;">
+        <div class="text-center">
+          <p>
+            <a class="language" href="#"> Onetouch</a>|
+            <a class="language" href="#">Showroom</a> |
+            <a class="language" href="#">Country Search</a>|
+            <a class="language" href="#"> Suppliers</a> |
+            <a class="language" href="#">Affiliate</a>
+          </p>
+          <p>
+            <a class="language" href="#"> Chính sách đăng sản phẩm</a>-
+            <a class="language" href="#"> Chính sách riêng tư</a>-
+            <a class="language" href="#"> Điều khoản Sử dụng</a> -
+            <a class="language" href="#"> User Information Legal Enquiry Guide</a>
+          </p>
+          <p>
+            <img src="icons/icon/chinhsu2.gif" width="1.5%" alt=""> © 2022-2023
+            BookWorms.com. All rights
+            reserved.
+
+          </p>
+        </div>
+      </div>
+
+  </footer>
+</body>
+
+</html>
